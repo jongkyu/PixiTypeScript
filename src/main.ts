@@ -12,4 +12,5 @@ var stage = new PIXI.Container();
 //Tell the `renderer` to `render` the `stage`
 renderer.render(stage);
 
-console.log("Start");
+console.log("Startt");
+console.log("Startt2");
