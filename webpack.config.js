@@ -1,10 +1,13 @@
 const path = require("path");
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
-    entry: "./src/main.ts",
+    entry: "./src/scripts/main.ts",
     output: {
-        filename: "./scripts/bundle.js"
+        filename: "./scripts/bundle.js",
+        path: path.resolve(__dirname, "./dist"),
     },
-    // Enable sourcemaps for debugging webpack's output.
+    // Enable sourcemaps for debugging webpack's otput.
     devtool: "inline-source-map",
     resolve: {
         // Add '.ts' as resolvable extensions.
@@ -15,9 +18,20 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: ["ts-loader"]
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                }]
             }
+
         ]
     },
+
+   
+    mode: "development",
+    
     devServer: {
         contentBase: path.join(__dirname, "."),
         compress: true,
@@ -29,6 +43,12 @@ module.exports = {
         // Don't bundle giant dependencies, instead assume they're available in
         // the html doc as global variables node module name -> JS global
         // through which it is available
-       //"pixi.js": "PIXI"
-    }
+        "pixi.js": "PIXI"
+    },
+
+    plugins: [
+        new CopyWebpackPlugin([
+            {from:'./src/images',to:'./images'} 
+        ]), 
+    ]
 };
