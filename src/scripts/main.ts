@@ -1,6 +1,7 @@
 
 import * as PIXI from "pixi.js";
 import { Sub, SubCar, SubHot } from './sub';
+import { CoroutineManager, WaitForSeconds } from './CoroutineManager';
 
 export class Main {
 
@@ -25,6 +26,9 @@ export class Main {
         }
         );
 
+        this.initCoroutine();
+
+
         document.body.appendChild(this.app.view);
 
         console.log("init");
@@ -40,6 +44,12 @@ export class Main {
             this.update(deltaTime);
         })
 
+    }
+
+    private initCoroutine() {
+        this.app.ticker.add((deltaTime: number) => {
+            CoroutineManager.instance.lateUpdate();
+        })
     }
 
     private update(deltaTime: number) {
@@ -87,25 +97,37 @@ export class Main {
         this.asyncTest();
 
 
+        //CoroutineManager
+        CoroutineManager.startCoroutine(this.coroutineClock(), null);
     }
 
 
+    *coroutineClock() {
+
+        for (let index = 0; index < 60; index++) {
+            yield new WaitForSeconds(1);
+            console.log("time : " + index);
+        }
+    }
+
+    
     async asyncTest() {
         let result1: Promise<any> = await this.delay3("a", 1000);
         let result2: Promise<any> = await this.delay3(result1 + "b", 500);
         let result3: Promise<any> = await this.delay3(result2 + "c", 100);
     }
 
-    delay3(msg:string, ms:number): Promise<any> {
-        return new Promise<any>(function (resolve:any) {
+    delay3(msg: string, ms: number): Promise<any> {
+        return new Promise<any>(function (resolve: any) {
             setTimeout(function () {
                 resolve(msg);
             }, ms);
-        }).then(function (v:string) {
+        }).then(function (v: string) {
             console.log(v + " " + ms + "ms");
             return v;
         });
     }
 }
 
+let coroutineManager = new CoroutineManager();
 let main = new Main();
