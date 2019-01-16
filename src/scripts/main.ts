@@ -2,6 +2,7 @@
 import * as PIXI from "pixi.js";
 import { Sub, SubCar, SubHot } from './sub';
 import { CoroutineManager, WaitForSeconds } from './CoroutineManager';
+import { Util } from "./Util";
 
 export class Main {
 
@@ -57,7 +58,7 @@ export class Main {
     }
 
 
-    private setup() {
+    private async setup() {
         console.log("setups");
         console.log(this.app);
         //Create the cat sprite
@@ -98,19 +99,21 @@ export class Main {
 
 
         //CoroutineManager
-        CoroutineManager.startCoroutine(this.coroutineClock(), null);
+        let coroutine = CoroutineManager.startCoroutine(this.coroutineClock(), null);
+        await coroutine.getDonePromise();
+        console.log("wait coroutine");
     }
 
 
     *coroutineClock() {
 
-        for (let index = 0; index < 60; index++) {
+        for (let index = 0; index < 5; index++) {
             yield new WaitForSeconds(1);
             console.log("time : " + index);
         }
     }
 
-    
+
     async asyncTest() {
         let result1: Promise<any> = await this.delay3("a", 1000);
         let result2: Promise<any> = await this.delay3(result1 + "b", 500);
