@@ -1,5 +1,9 @@
 const path = require("path");
+//whtch file copy
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+//watch resource copy
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
     entry: "./src/scripts/main.ts",
@@ -29,9 +33,9 @@ module.exports = {
         ]
     },
 
-   
+
     mode: "development",
-    
+
     devServer: {
         contentBase: path.join(__dirname, "."),
         compress: true,
@@ -47,8 +51,10 @@ module.exports = {
     },
 
     plugins: [
+        //
         new CopyWebpackPlugin([
-            {from:'./src/images',to:'./images'} 
-        ]), 
+            { from: './src/images', to: './images' }
+        ]),
+        new WriteFilePlugin(),
     ]
 };
