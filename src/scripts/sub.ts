@@ -1,16 +1,20 @@
 import * as PIXI from "pixi.js";
 
-class Sub extends PIXI.Container {
+export class Sub extends PIXI.Container {
     constructor() {
         super();
     }
 
-    protected init() {
+    public init() {
         console.log("Sub");
     }
 
-    protected setup(){
+    protected setup() {
         console.log("Setup");
+    }
+
+    public isType(): string {
+        return "types"
     }
 
 }
@@ -38,23 +42,27 @@ export class SubCar extends Sub {
         this.addChild(mon);
     }
 
+    public isType():string{
+        return "Car";
+    }
+
 }
 
 
 export class SubHot extends Sub {
 
     private sprite: PIXI.Sprite;
-    private loader :PIXI.loaders.Loader;
+    private loader: PIXI.loaders.Loader;
 
     public init() {
         super.init();
         console.log("SubHot Override");
 
         this.loader = new PIXI.loaders.Loader();
-        this.loader.add("images/lobby/icon_04.png").load(()=>{
+        this.loader.add("images/lobby/icon_04.png").load(() => {
             this.setup();
         })
-     
+
     }
 
     protected setup() {
@@ -64,5 +72,10 @@ export class SubHot extends Sub {
         mon.x = 0;
         this.addChild(mon);
     }
+
+    public isType():string{
+        return "Hot";
+    }
+
 
 }

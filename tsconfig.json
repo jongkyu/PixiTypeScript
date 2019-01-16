@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "outDir": "./dist/",
     "sourceMap": true,
+    "lib": [ "dom", "es5", "es6", "es2015.promise" ],
     "target": "es5"
   },
   "filesGlob": [
