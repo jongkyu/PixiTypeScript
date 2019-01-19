@@ -6,6 +6,10 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
+    //babel es6+ transfiling incluse 
+    // entry: {
+    //     app: ['babel-polyfill', './src/scripts/main.ts']
+    // },
     entry: "./src/scripts/main.ts",
     output: {
         filename: "./scripts/bundle.js",
@@ -21,18 +25,40 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
+                exclude: /node_modules/,
                 use: ["ts-loader"]
             },
             {
                 test: /\.(png|jpg|gif)$/,
+                exclude: /node_modules/,
                 use: [{
                     loader: 'file-loader',
                 }]
-            }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: { presets: ['es2015', 'es2016'] },
+                }],
+            },
 
         ]
     },
 
+    //babel optimazation
+    // optimization: {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             commons: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 name: 'vendors',
+    //                 chunks: 'all'
+    //             }
+    //         }
+    //     }
+    // },
 
     mode: "development",
 
