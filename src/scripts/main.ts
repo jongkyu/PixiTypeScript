@@ -38,22 +38,19 @@ export class Main {
         console.log("init");
         console.log(this.app);
 
-
-
         // 일반 이미지 로드 
-        // PIXI.loader
-        //     .add("images/cat.png")
-        //     .load(() => {
-        //         this.setup();
-        //     });
+        let loader1 = new PIXI.loaders.Loader();
+        loader1.add("images/cat.png").load((loader: any, res: any) => {
+            this.setup(loader, res);
+        })
 
-        //spine로드
-        PIXI.loader
-            .add('power_shoot', 'images/spine/power_shoot.json')
-            .load((loader: any, res: any) => {
-                this.onAssetsLoaded(loader, res);
-            });
-
+        let loader2 = new PIXI.loaders.Loader();
+        loader2.add('power_shoot', 'images/spine/power_shoot.json').load((loader: any, res: any) => {
+            this.onAssetsLoaded(loader, res);
+        })
+                
+     
+    
         this.app.ticker.add((deltaTime: number) => {
             this.update(deltaTime);
         })
@@ -110,11 +107,12 @@ export class Main {
     }
 
 
-    private async setup() {
+    private async setup(loader: PIXI.loaders.Loader, res: any) {
         console.log("setups");
         console.log(this.app);
+        console.log(res);
         //Create the cat sprite
-        let cat: PIXI.Sprite = new PIXI.Sprite(PIXI.loader.resources["images/cat.png"].texture);
+        let cat: PIXI.Sprite = new PIXI.Sprite(res["images/cat.png"].texture);
         cat.x = 100;
         //Add the cat to the stage
         this.app.stage.addChild(cat);
