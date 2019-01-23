@@ -73,7 +73,8 @@ module.exports = {
         // Don't bundle giant dependencies, instead assume they're available in
         // the html doc as global variables node module name -> JS global
         // through which it is available
-        "pixi.js": "PIXI"
+        "pixi.js": "PIXI",
+        "pixi-spine.js": "PIXI",
     },
 
     plugins: [
